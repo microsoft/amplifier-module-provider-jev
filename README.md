@@ -7,6 +7,29 @@ account. It has no chat models and never enters the ordinary chat fallback chain
 Keep an ordinary chat provider configured. No decision call occurs until both
 the provider and a consumer explicitly enable it.
 
+## Current Core compatibility limitation
+
+This provider's capability-only mount is **not supported by Core 2.0.2's provider
+lifecycle**. Core requires a newly mounted chat-provider object. Jev publishes
+`decision.backends` instead, so Core rejects both an enabled mount and an
+explicitly listed disabled row that returns without mounting a chat provider.
+For ordinary use, omit this optional provider row; ordinary providers and UI-use
+selection remain unchanged.
+
+An offline Core lifecycle probe reproduced a rejected Jev mount whose backend
+remained available until normal session cleanup. Do not assume mount rejection
+removes an executable backend, or treat inference succeeding after rejection as
+a supported successful mount. Consumers must not rely on those side effects.
+
+[Core #124](https://github.com/microsoft/amplifier-core/pull/124) proposes a
+capability-only lifecycle for modules such as Jev; it is a documentation proposal,
+not implemented support. A supported lifecycle and failure cleanup still need
+agreement and qualification. No future Core version or compatibility floor is
+promised here. Installing this package does not resolve that boundary.
+
+The following YAML illustrates the candidate configuration format; it is not a
+supported production setup on Core 2.0.2:
+
 ```yaml
 providers:
   - module: provider-jev
