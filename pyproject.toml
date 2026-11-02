@@ -11,12 +11,13 @@ license = "MIT"
 dependencies = ["httpx>=0.27,<1", "amplifier-lib-decisions @ git+https://github.com/microsoft/amplifier-lib-decisions@main"]
 [project.entry-points."amplifier.modules"]
 provider-jev = "amplifier_module_provider_jev:mount"
+hooks-jev-decisions = "amplifier_module_hooks_jev_decisions:mount"
 [project.entry-points."amplifier.decision_backends"]
 jev = "amplifier_module_provider_jev.catalog:catalog"
 [project.optional-dependencies]
 test = ["pytest>=8", "pytest-asyncio>=0.24"]
 [tool.hatch.build.targets.wheel]
-packages = ["amplifier_module_provider_jev"]
+packages = ["amplifier_module_provider_jev", "amplifier_module_hooks_jev_decisions"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 
